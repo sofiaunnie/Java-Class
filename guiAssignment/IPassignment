@@ -1,0 +1,42 @@
+package guiAssignment;
+
+public class IPassignment {
+
+	public static boolean checkIP(String ip) {
+		String[] parts = ip.split("\\.");
+
+		if (parts.length != 4) {
+			return false; // IP address should contain exactly four parts
+		}
+
+		for (String part : parts) {
+			if (part.length() > 3) {
+				return false; // each part can have at most 3 digits
+			}
+
+			for (int i = 0; i < part.length(); i++) {
+				char c = part.charAt(i);
+
+				if (c < '0' || c > '9') {
+					return false; // each part should only contain digits
+				}
+			}
+
+			int num = Integer.parseInt(part);
+
+			if (num < 0 || num > 255) {
+				return false; // each part should be between 0 and 255 (inclusive)
+			}
+		}
+
+		return true; // if all checks pass, then the IP address is valid
+	}
+
+	public static void main(String[] args) {
+		String[] ips = { "192.168.1.1", "10.0.0.1", "255.255.255.0", "256.0.0.1", "1.2.3.4.5", ".213.123.23.32" };
+
+		for (String ip : ips) {
+			System.out.println(ip + " is valid? " + checkIP(ip));
+		}
+	}
+}
