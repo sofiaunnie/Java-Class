@@ -1,0 +1,60 @@
+package page;
+
+interface myInterface {
+	public void greet(String name);
+}
+
+class Hello implements myInterface {
+
+	public void greet(String name) {
+		System.out.println("Hello Class");
+		System.out.println("Chief" + name);
+	}
+}
+
+class Hello2 implements myInterface {
+	@Override
+	public void greet(String name) {
+		System.out.println("Hello Class");
+		System.out.println("Senior" + name);
+	}
+}
+
+public class Holder2 {
+
+	myInterface interface1;
+
+	void accept(myInterface interface1) {
+		this.interface1 = interface1;
+	}
+
+	void greeting(String name) {
+		interface1.greet(name);
+		;
+	}
+
+	public static void main(String[] args) {
+		Hello chief = new Hello();
+		Hello2 hello2 = new Hello2();
+		Holder2 obj = new Holder2();
+
+		obj.accept(chief);
+		obj.greeting(" Felix ");
+
+		Holder2 obj2 = new Holder2();
+
+		obj2.accept(hello2);
+		obj.greeting(" Hyunjin ");
+
+		Holder2 obj3 = new Holder2();
+		obj3.accept(new myInterface() {
+			@Override
+			public void greet(String name) {
+				System.out.println("Anonymous");
+				System.out.println("Junior" + name);
+			}
+
+		});
+		obj3.greeting(" Chan ");
+	}
+}
