@@ -1,1 +1,38 @@
+package oop;
+
+public class Animal {
+	
+	public void eat() {
+		System.out.println("Animal eats" );
+	}
+
+public static void main(String[] args) {
+	
+}
+
+}
+
+class Herbivore extends Animal{
+	@Override
+	public void eat() {
+		System.out.println("Herbivore eats" );
+}
+}
+
+class Omnivore extends Animal{
+	public void eat() {
+		System.out.println("mnivore eats" );
+}
+}
+
+class Carnivore extends Animal{
+	@Override
+	public void eat() {
+		System.out.println("Carnivore eats" );
+}
+}
+
+
+	
+
 
