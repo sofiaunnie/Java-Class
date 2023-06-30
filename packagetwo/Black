@@ -1,0 +1,17 @@
+package packagetwo;
+
+import packageone.Felix;
+
+public class Black extends Felix {
+	Felix Lixie = new Felix();
+//	int black = Lixie.;
+	
+	public static void main(String[] args) {
+		Felix bok = new Felix();
+	//	bok.
+		
+		Black bl = new Black();
+	//
+	//	bl.
+	}
+}
