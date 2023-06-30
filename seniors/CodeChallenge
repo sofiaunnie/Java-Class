@@ -1,0 +1,43 @@
+package seniors;
+
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
+
+public class CodeChallenge {
+	
+	public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        
+        int lowerLimit = 1;
+        int upperLimit = 80;
+        int number = random.nextInt(upperLimit - lowerLimit + 1) + lowerLimit; // random.nextInt(upperLimit - lowerLimit + 1): This part generates a random integer within a specified range. The nextInt(int bound) method of the Random class is used to generate a random integer between 0 (inclusive) and bound (exclusive). In this case, bound is calculated as upperLimit - lowerLimit + 1. The +1 is added to include the upper limit in the range.For example, if lowerLimit is 1 and upperLimit is 80, the bound will be 80 - 1 + 1 = 80. This means the random number will be generated between 0 and 79.+ lowerLimit: This part shifts the generated random number to the desired range by adding the lowerLimit value. Since the random number generated in the previous step is between 0 and 79, adding lowerLimit will shift the range to lowerLimit and lowerLimit + 79.For example, if the generated random number is 50 and lowerLimit is 1, adding lowerLimit will make the number 51. So the final range becomes 1 and 80.Overall, the expression random.nextInt(upperLimit - lowerLimit + 1) + lowerLimit generates a random number within the specified range (lowerLimit to upperLimit inclusive) using the Random class in Java.
+        int attempts = 0; // The attempts variable keeps track of the number of attempts made by the user.
+        
+        System.out.println("Welcome to Guess the Number!");
+        System.out.printf("I'm thinking of a number between %d and %d.%n", lowerLimit, upperLimit);
+        
+        while (true) {
+            System.out.print("Take a guess: ");
+            try {
+                int guess = scanner.nextInt();
+                attempts++; //The number of attempts is incremented.
+                
+                if (guess > number) {
+                    System.out.println("Too high!");
+                } else if (guess < number) {
+                    System.out.println("Too low!");
+                } else {
+                    System.out.printf("Congratulations! You guessed the number %d in %d attempts.%n", number, attempts);
+                    break;
+                }
+            } catch (InputMismatchException e) { // InputMismatchException - If the user enters a non-integer input, the program will catch the exception, display an error message, and prompt the user again for a valid integer guess.
+                System.out.println("Invalid input! Please enter a valid number");
+                scanner.nextLine(); // Clear the invalid input from the scanner buffer
+            }
+        }
+        
+        scanner.close();
+    }
+}
