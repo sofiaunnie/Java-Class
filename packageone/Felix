@@ -1,0 +1,21 @@
+package packageone;
+class Felix2 extends Felix{
+	// int felix2 = 8;
+	Felix Lixie = new Felix();
+	int black = Lixie.packagePrivateNum;
+	}
+
+public class Felix {
+	public int publicNum = 10;
+	private int privateNum = 20;
+	protected int protectedNum = 30;
+	int packagePrivateNum = 40;
+	
+	public void check() {
+		System.out.println(publicNum + privateNum + protectedNum + packagePrivateNum);
+		}
+	public static void main(String[] args) {
+		Felix2 lix = new Felix2();
+		System.out.println(lix.black);
+	}
+}
