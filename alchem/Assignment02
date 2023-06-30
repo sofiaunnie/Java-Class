@@ -1,0 +1,57 @@
+  package alchem;
+import java.util.Scanner;
+
+public class Assignment02 {
+	
+		public static void let (char letter) {
+//		letter = String.valueOf(letter).toLowerCase().charAt(0);
+			String let1 = String.valueOf(letter);
+			let1 = let1.toLowerCase();
+			
+			letter = let1.charAt(0);
+			
+			if(letter == 'a' || letter == 'e' || letter == 'i' ||letter == 'o'||
+		  letter == 'u'){
+				System.out.println(letter  + " is vowel");
+			}
+			else {
+				System.out.println(letter + " is consonant");
+			}
+		}
+//		public static void main (String [] args) {
+//			let('1');
+//		}
+	//	
+		int num1;
+		int num2;
+		public void method() {
+			Scanner  upper = new Scanner(System.in);
+			System.out.print("Enter num 1: ");
+			num1 = upper.nextInt();
+			System.out.print("Enter num 2: ");
+			num2 = upper.nextInt();
+			if (num1== 0 || num2 == 0) {
+				System.out.print("'One of the number is zero'");
+			}
+			else {
+				if(num1 % num2 ==0) {
+					System.out.print("divisible...");
+			} else {
+				System.out.print("Not divisible");
+			}
+			}
+		}
+		
+		public static void main(String []args) {
+			Assignment02 reg = new Assignment02();
+			
+			reg.method();
+//			let('a');
+//			let('j');
+//			let('i');
+//			let('k');
+		}
+		
+	}
+
+
