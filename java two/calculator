@@ -1,1 +1,239 @@
+package javatwo;
 
+import javax.swing.JFrame;
+	import javax.swing.JPanel;
+	import javax.swing.JTextField;
+	import javax.swing.JButton;
+
+	import java.awt.GridLayout;
+	import java.awt.Color;
+	import java.awt.Font;
+	import java.awt.event.ActionListener;
+	import java.util.ArrayList;
+	import java.util.List;
+	import java.util.Stack;
+	import java.awt.event.ActionEvent;
+
+	public class Calculator extends JFrame implements ActionListener {
+	    private String[] buttonLabels = { "OFF", "%", "C", "<<", "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-",
+	            ".", "0", "+", "=" };
+	    private JButton[] buttons = new JButton[buttonLabels.length];
+	    private Font buttonFont = new Font("Poppins", Font.BOLD, 40);
+	    private JPanel buttonPanel;
+	    private JTextField display;
+	    private Color fgColor = Color.red;
+
+	    private boolean powerOn = true;
+	    private boolean clearOnNextInput = false;
+
+	    public Calculator() {
+	        setTitle("Calculator");
+	        setLayout(new GridLayout(0, 1));
+
+	        JPanel textPanel = new JPanel();
+	        display = new JTextField(20);
+	        display.setFont(new Font("Poppins", Font.BOLD, 40));
+	        textPanel.add(display);
+	        add(textPanel);
+
+	        buttonPanel = new JPanel();
+	        buttonPanel.setLayout(new GridLayout(5, 4));
+	        add(buttonPanel);
+	        createButtons();
+
+	        JButton onOrOff = buttons[0];
+	        onOrOff.setActionCommand("power");
+	        onOrOff.setBackground(Color.red);
+
+	        pack();
+	        setLocationRelativeTo(null);
+	        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        setResizable(false);
+	        setVisible(true);
+	    }
+
+	    private void createButtons() {
+	        for (int i = 0; i < buttonLabels.length; i++) {
+	            JButton button = new JButton(buttonLabels[i]);
+	            button.setFont(buttonFont);
+	            button.setFocusable(false);
+	            button.addActionListener(this);
+	            buttons[i] = button;
+	            buttonPanel.add(button);
+	        }
+	    }
+
+	    public void actionPerformed(ActionEvent e) {
+	        if (!powerOn) {
+	            return;
+	        }
+
+	        String clicked = e.getActionCommand();
+
+	        if (clicked.equals("C")) {
+	            clearDisplay();
+	        } else if (clicked.equals("<<")) {
+	            backspace();
+	        } else if (clicked.equals("=")) {
+	            evaluateExpression();
+	        } else if (clicked.equals("")) {
+	            powerOff();
+	        } else {
+	            appendToDisplay(clicked);
+	        }
+	    }
+
+	    private void clearDisplay() {
+	        display.setText("");
+	    }
+
+	    private void backspace() {
+	        String currentText = display.getText();
+	        if (currentText.length() > 0) {
+	            String newText = currentText.substring(0, currentText.length() - 1);
+	            display.setText(newText);
+	        }
+	    }
+
+	    private void evaluateExpression() {
+	        String expression = display.getText();
+	        if (!expression.isEmpty()) {
+	            double result = evaluate(expression);
+	            display.setText(Double.toString(result));
+	        }
+	    }
+
+	    private double evaluate(String expression) {
+	        if (expression.contains("/") && expression.endsWith("0")) {
+	            return Double.NaN; // Handle division by zero
+	        }
+
+	        List<String> tokens = tokenizeExpression(expression);
+	        List<String> postfixExpression = convertToPostfix(tokens);
+	        return evaluatePostfixExpression(postfixExpression);
+	    }
+
+	    private List<String> tokenizeExpression(String expression) {
+	        List<String> tokens = new ArrayList<>();
+	        StringBuilder token = new StringBuilder();
+
+	        for (char c : expression.toCharArray()) {
+	            if (Character.isDigit(c) || c == '.') {
+	                token.append(c);
+	            } else {
+	                if (token.length() > 0) {
+	                    tokens.add(token.toString());
+	                    token.setLength(0);
+	                }
+	                tokens.add(Character.toString(c));
+	            }
+	        }
+
+	        if (token.length() > 0) {
+	            tokens.add(token.toString());
+	        }
+
+	        return tokens;
+	    }
+
+	    private List<String> convertToPostfix(List<String> infixExpression) {
+	        List<String> postfixExpression = new ArrayList<>();
+	        Stack<String> operatorStack = new Stack<>();
+
+	        for (String token : infixExpression) {
+	            if (isNumber(token)) {
+	                postfixExpression.add(token);
+	            } else if (isOperator(token)) {
+	                while (!operatorStack.isEmpty() && !token.equals("(") && hasHigherPrecedence(operatorStack.peek(), token)) {
+	                    postfixExpression.add(operatorStack.pop());
+	                }
+	                operatorStack.push(token);
+	            } else if (token.equals("(")) {
+	                operatorStack.push(token);
+	            } else if (token.equals(")")) {
+	                while (!operatorStack.isEmpty() && !operatorStack.peek().equals("(")) {
+	                    postfixExpression.add(operatorStack.pop());
+	                }
+	                operatorStack.pop();
+	            }
+	        }
+
+	        while (!operatorStack.isEmpty()) {
+	            postfixExpression.add(operatorStack.pop());
+	        }
+
+	        return postfixExpression;
+	    }
+
+	    private boolean isNumber(String token) {
+	        try {
+	            Double.parseDouble(token);
+	            return true;
+	        } catch (NumberFormatException e) {
+	            return false;
+	        }
+	    }
+
+	    private boolean isOperator(String token) {
+	        return "+-*/".contains(token);
+	    }
+
+	    private boolean hasHigherPrecedence(String op1, String op2) {
+	        return (op1.equals("*") || op1.equals("/")) && (op2.equals("+") || op2.equals("-"));
+	    }
+
+	    private double evaluatePostfixExpression(List<String> postfixExpression) {
+	        Stack<Double> operandStack = new Stack<>();
+
+	        for (String token : postfixExpression) {
+	            if (isNumber(token)) {
+	                operandStack.push(Double.parseDouble(token));
+	            } else {
+	                double num2 = operandStack.pop();
+	                double num1 = operandStack.pop();
+	                double result = performOperation(token, num1, num2);
+	                operandStack.push(result);
+	            }
+	        }
+
+	        return operandStack.pop();
+	    }
+
+	    private double performOperation(String operator, double num1, double num2) {
+	        switch (operator) {
+	            case "+":
+	                return num1 + num2;
+	            case "-":
+	                return num1 - num2;
+	            case "*":
+	                return num1 * num2;
+	            case "/":
+	                return num1 / num2;
+	            default:
+	                throw new IllegalArgumentException("Invalid operator: " + operator);
+	        }
+	    }
+
+	    private void appendToDisplay(String value) {
+	        if (clearOnNextInput) {
+	            display.setText("");
+	            clearOnNextInput = false;
+	        }
+	        display.setText(display.getText() + value);
+	    }
+
+	    private void powerOff() {
+	        powerOn = false;
+	        display.setText("");
+	        buttons[0].setText("ON");
+	        buttons[0].setBackground(Color.green);
+
+	        for (int i = 1; i < buttons.length; i++) {
+	            buttons[i].setEnabled(false);
+	        }
+	    }
+
+	    public static void main(String[] args) {
+	        new Calculator();
+	    }
+	}
