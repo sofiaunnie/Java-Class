@@ -1,0 +1,42 @@
+package triggs;
+
+import java.util.Scanner;
+public class SeventhClass {
+	
+	public void totaldistance() {
+		Scanner  formula = new Scanner(System.in);
+		System.out.println("Enter U Here");
+		int u = formula.nextInt();
+		System.out.println("Enter A Here");
+		int a = formula.nextInt();
+		System.out.println("Enter T Here");
+		int t = formula.nextInt();
+		System.out.println("Total distance = "+u+"*"+t+"+ ("+a+"*"+t+"*"+t+") /"+2);
+		System.out.println("Total distance = "+(u*t+(a*t*t)/2));
+		
+	}
+//	public void Volume() {
+//		Scanner formula2 = new Scanner(System.in);
+//		float pi = 22/7;
+//		System.out.println("Enter radius(r) here: ");
+//		float r = formula2.nextFloat();
+//		System.out.println("Enter height(h) here: ");
+//		float h = formula2.nextFloat();
+//		System.out.println("volume = "+pi+"*"+r+"*"+r+"*"+h);
+//		System.out.println("volume = "+pi*r*r*h);
+//	}
+//	public void temp_convert() {
+//		Scanner formula3 = new Scanner(System.in);
+//		System.out.println("Enter temp in celsius here: ");
+//		int C = formula3.nextInt();
+//		System.out.println("F = "+ C +" + "+9+"/"+5+" + "+32);
+//		System.out.println("F = "+(C*9/5)+32+"Clesius");
+//	}
+	
+	public void volume(String [] args) {
+		
+	}
+	
+
+
+}
