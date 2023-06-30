@@ -1,0 +1,103 @@
+package gui;
+
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Color;
+import java.awt.Font;
+
+public class UpcomingSeniors {
+	Font font;
+	Color frameColor, panelColor, btnFgColor, btnBgColor;
+	JFrame frame;
+	JPanel panel;
+	JButton btn1,btn2,btn3,btn4,btn5;
+	
+	void initialiseVariables() {
+		font = new Font("Ink Free", Font.ITALIC, 32);
+		frameColor = Color.black;
+		panelColor = Color.blue;
+		btnBgColor = Color.black;
+		btnFgColor = Color.yellow;
+		frame = new JFrame("Simple Class Work");
+		panel = new JPanel();
+	}
+
+	void setFrameProperties() {
+		initialiseVariables();
+		loadComponents();
+		
+		frame.add(panel);
+		frame.setTitle("Title Changed");
+//		frame.setSize(300, 300);
+		frame.pack();
+		frame.setVisible(true);
+		frame.getContentPane().setBackground(frameColor);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+	}
+
+	public static void main(String[] args) {
+		UpcomingSeniors obj = new UpcomingSeniors();
+//	    obj.initialiseVariables();
+		obj.setFrameProperties();
+//		obj.loadComponents();
+
+	}
+	
+	private JButton createButton(String txt) {
+
+		JButton btn = new JButton(txt);
+		btn.setFocusable(false);
+		btn.setForeground(btnFgColor);
+		btn.setBackground(btnBgColor);
+		btn.setFont(new Font("Ink Free", Font.BOLD, 30));
+
+		return btn;
+	}
+	
+	private void loadComponents() {
+		btn1 = createButton("Button A");
+		btn2 = createButton("Button B");
+		btn3 = createButton("Button C");
+		btn4 = createButton("Button D");
+		btn5 = createButton("Button E");
+		
+		panel.setBackground(panelColor);
+		GridLayout gl = new GridLayout(3,2);
+//		panel.setLayout(gl);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+//		panel.setLayout(gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		panel.add(btn1,gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		panel.add(btn2,gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		panel.add(btn3,gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		panel.add(btn4,gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		panel.add(btn5,gbc);
+		
+	}
+}
+
+
